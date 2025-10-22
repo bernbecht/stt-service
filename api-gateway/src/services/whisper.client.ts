@@ -9,5 +9,5 @@ export const sendAudioToWhisper = async (audioBuffer: Buffer, filename: string) 
 
   console.log('Sending audio to Whisper API...');
 
-  return {transcription: 'Mock transcription from Whisper API'};
+  return { transcription: 'Mock transcription from Whisper API' };
 };
