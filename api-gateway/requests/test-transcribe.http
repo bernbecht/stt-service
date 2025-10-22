@@ -1,0 +1,10 @@
+### Test /api/transcribe endpoint with file upload
+POST http://localhost:3000/api/transcribe
+Content-Type: multipart/form-data; boundary=---011000010111000001101001
+
+-----011000010111000001101001
+Content-Disposition: form-data; name="audio"; filename="test.wav"
+Content-Type: audio/wav
+
+< ./test.wav
+-----011000010111000001101001--
