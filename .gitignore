@@ -1,2 +1,13 @@
 node_modules
 dist
+
+# python
+__pycache__/
+*.pyc
+.env
+venv/
+.venv
+
+# general
+.DS_Store
+.idea/
