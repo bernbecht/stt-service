@@ -3,6 +3,14 @@ from faster_whisper import WhisperModel
 import os
 from datetime import datetime
 
+_model = None
+
+def get_model(name='medium'):
+    global _model
+    if _model is None:
+        _model = WhisperModel(name)
+    return _model
+
 # Load model once globally
 def transcribe_file(file_path: str) -> str:
     if not os.path.isfile(file_path):
@@ -10,7 +18,7 @@ def transcribe_file(file_path: str) -> str:
     
     start_time = time()
 
-    model = WhisperModel("medium")  # "small" or "large" if you want
+    model = get_model("medium")  # "small" or "large" if you want
     segments, info = model.transcribe(file_path)
     print(f"Detected language: {info.language} with probability {info.language_probability}%")
     
