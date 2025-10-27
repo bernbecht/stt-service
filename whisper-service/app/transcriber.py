@@ -2,6 +2,8 @@ from time import time
 from faster_whisper import WhisperModel
 import os
 from datetime import datetime
+import tempfile
+from fastapi import UploadFile  # optional import for typing
 
 _model = None
 
@@ -11,7 +13,24 @@ def get_model(name='medium'):
         _model = WhisperModel(name)
     return _model
 
-# Load model once globally
+def transcribe_bytes(data: bytes, filename: str | None = None) -> str:
+    """
+    Transcribe audio provided as bytes. Writes to a temp file then reuses transcribe_file.
+    Returns transcription text.
+    """
+    suffix = os.path.splitext(filename)[1] if filename else ".wav"
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=True) as tmp:
+        tmp.write(data)
+        tmp.flush()
+        return transcribe_file(tmp.name)
+
+async def transcribe_uploadfile(upload_file: UploadFile) -> str:
+    """
+    Async helper for FastAPI UploadFile. Reads contents and forwards to transcribe_bytes.
+    """
+    content = await upload_file.read()
+    return transcribe_bytes(content, filename=upload_file.filename)
+
 def transcribe_file(file_path: str) -> str:
     if not os.path.isfile(file_path):
         raise FileNotFoundError(f"File not found: {file_path}")
