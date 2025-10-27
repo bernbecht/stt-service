@@ -3,7 +3,8 @@ import FormData from 'form-data';
 
 const WHISPER_API_URL = process.env.WHISPER_API_URL || 'http://localhost:8000/transcribe';
 
-export const sendAudioToWhisper = async (audioBuffer: Buffer, filename: string) => {
+// Function to send audio buffer to Whisper API and get transcription
+export const sendAudioBufferToWhisper = async (audioBuffer: Buffer, filename: string) => {
   const form = new FormData();
   form.append('audio', audioBuffer, {
     filename,
@@ -15,6 +16,17 @@ export const sendAudioToWhisper = async (audioBuffer: Buffer, filename: string) 
     headers: form.getHeaders(),
   });
 
+
+  return { transcription: response.data.transcription };
+};
+
+// Send audio file location to Whisper API and get transcription
+export const sendAudioFileToWhisper = async (filePath: string) => {
+  console.log('Sending audio file to Whisper API...', filePath);
+
+  const response = await axios.post(WHISPER_API_URL, { path: filePath }, {
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   return { transcription: response.data.transcription };
 };

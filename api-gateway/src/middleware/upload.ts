@@ -1,7 +1,27 @@
+import fs from 'fs';
 import multer from 'multer';
+import path from 'path';
 
-// configure multer to store files in memory
-const storage = multer.memoryStorage();
+const UPLOAD_DIR = path.resolve(process.cwd(), 'uploads');
+
+// Ensure the upload directory exists
+if (!fs.existsSync(UPLOAD_DIR)) {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, UPLOAD_DIR);
+  },
+  filename: function (req, file, cb) {
+    const timestamp = Date.now();
+    // TODO: add even safer filename handling
+    const safeName = file.originalname.replace(/\s+/g, '_');
+    cb(null, `${timestamp}-${safeName}`);
+  }
+});
+
+
 // Create the multer instance that will handle a single file upload with the field name 'audio'
 const upload = multer({ storage });
 
