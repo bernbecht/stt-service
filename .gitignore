@@ -12,3 +12,6 @@ venv/
 # general
 .DS_Store
 .idea/
+
+# api-gateway
+api-gateway/uploads/
