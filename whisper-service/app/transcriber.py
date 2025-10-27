@@ -59,4 +59,10 @@ def transcribe_file(file_path: str) -> str:
     print(f"Transcription completed in {end_time - start_time:.2f} seconds")
     print(f"Transcription saved to {txt_file_path}")
     
-    return text
+    return {
+        "transcription": text,
+        "transcription_file": txt_file_path,
+        "language": info.language,
+        "language_probability": info.language_probability,
+        "time_taken_seconds": end_time - start_time
+    }

@@ -17,7 +17,7 @@ export const sendAudioBufferToWhisper = async (audioBuffer: Buffer, filename: st
   });
 
 
-  return { transcription: response.data.transcription };
+  return { data: response.data };
 };
 
 // Send audio file location to Whisper API and get transcription
@@ -28,5 +28,5 @@ export const sendAudioFileToWhisper = async (filePath: string) => {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  return { transcription: response.data.transcription };
+  return { data: response.data };
 };

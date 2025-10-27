@@ -16,5 +16,5 @@ async def transcribe(payload: PathPayload):
     if not os.path.isfile(file_path):
         raise HTTPException(status_code=404, detail=f"File not found: {file_path}")
     # run the blocking work in a thread so the event loop isn't blocked
-    text = await asyncio.to_thread(transcribe_file, file_path)
-    return {"transcription": text}
+    result = await asyncio.to_thread(transcribe_file, file_path)
+    return result
