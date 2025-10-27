@@ -7,6 +7,7 @@ __pycache__/
 .env
 venv/
 .venv
+./whisper-service/results
 
 # general
 .DS_Store
