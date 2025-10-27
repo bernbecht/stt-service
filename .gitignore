@@ -1,10 +1,10 @@
 node_modules
 dist
+.env
 
 # python
 __pycache__/
 *.pyc
-.env
 venv/
 .venv
 ./whisper-service/results
