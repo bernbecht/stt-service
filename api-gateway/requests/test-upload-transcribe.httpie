@@ -1,0 +1,1 @@
+http -f POST http://localhost:3000/api/transcribe audio@./audios/audio.m4a
