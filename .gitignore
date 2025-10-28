@@ -16,3 +16,4 @@ venv/
 # api-gateway
 api-gateway/uploads/
 .env
+/shared/
