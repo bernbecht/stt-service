@@ -7,12 +7,15 @@ from pydantic import BaseModel
 import os
 import asyncio
 from app.transcriber import transcribe_file, transcribe_uploadfile
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
-# Define project-level results directory (constant)
-PROJECT_ROOT = Path(__file__).resolve().parents[2]  # /home/bbp/projects/stt-service
-RESULTS_DIR = PROJECT_ROOT / "results"
+RESULTS_DIR = Path(os.getenv("SHARED_TRANSCRIPTS_DIR", "/home/bbp/projects/stt-service/shared/transcripts"))
+
+print("Using transcripts dir:", RESULTS_DIR)
 
 class PathPayload(BaseModel):
     path: str
