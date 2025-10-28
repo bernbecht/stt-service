@@ -2,7 +2,7 @@ import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
 
-const UPLOAD_DIR = path.resolve(process.cwd(), 'uploads');
+const UPLOAD_DIR = process.env.SHARED_UPLOADS_DIR || path.resolve(__dirname, '../../uploads');
 
 // Ensure the upload directory exists
 if (!fs.existsSync(UPLOAD_DIR)) {
