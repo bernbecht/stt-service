@@ -1,32 +1,35 @@
 import axios from 'axios';
-import FormData from 'form-data';
 
 const WHISPER_API_URL = process.env.WHISPER_API_URL || 'http://localhost:8000/transcribe';
+const USE_MOCK_WHISPER = process.env.USE_MOCK_WHISPER === 'false';
 
-// Function to send audio buffer to Whisper API and get transcription
-export const sendAudioBufferToWhisper = async (audioBuffer: Buffer, filename: string) => {
-  const form = new FormData();
-  form.append('audio', audioBuffer, {
-    filename,
-  });
-
-  console.log('Sending audio to Whisper API...');
-
-  const response = await axios.post(WHISPER_API_URL, form, {
-    headers: form.getHeaders(),
-  });
-
-
-  return { data: response.data };
+type WhisperResponse = {
+  transcription: string;
+  language?: string;
+  language_confidence?: number;
+  time_taken_seconds?: number;
+  mock?: boolean;
 };
 
 // Send audio file location to Whisper API and get transcription
 export const sendAudioFileToWhisper = async (filePath: string) => {
   console.log('Sending audio file to Whisper API...', filePath);
 
+  if (USE_MOCK_WHISPER) {
+    console.log('[MOCK] Using mock Whisper service');
+    return { data: { 
+      transcription: 'This is a mock transcription.',
+      language: 'pt-BR',
+      language_confidence: 0.95,
+      time_taken_seconds: 1.23,
+      mock: true,
+     } as WhisperResponse };
+  }
+
   const response = await axios.post(WHISPER_API_URL, { path: filePath }, {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  return { data: response.data };
+  const responseData: WhisperResponse = response.data as WhisperResponse;
+  return { data: responseData };
 };

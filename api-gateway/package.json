@@ -7,6 +7,7 @@
     "start": "node dist/app.js",
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "dev:mock-whisper": "USE_MOCK_WHISPER=true ts-node-dev --respawn --transpile-only src/app.ts",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write '**/*.ts'",
     "worker": "ts-node workers/transcription.worker.ts"
