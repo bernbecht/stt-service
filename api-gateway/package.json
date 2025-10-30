@@ -13,6 +13,7 @@
     "worker": "ts-node workers/transcription.worker.ts"
   },
   "dependencies": {
+    "@queuedash/api": "^3.8.0",
     "axios": "^1.7.2",
     "bullmq": "^5.61.2",
     "cors": "^2.8.5",
