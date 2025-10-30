@@ -17,6 +17,8 @@ export const sendAudioFileToWhisper = async (filePath: string) => {
 
   if (USE_MOCK_WHISPER) {
     console.log('[MOCK] Using mock Whisper service');
+    // add latency to simulate real API call
+    await new Promise((resolve) => setTimeout(resolve, 300));
     return { data: { 
       transcription: 'This is a mock transcription.',
       language: 'pt-BR',
