@@ -9,14 +9,16 @@ export const transcribeAudio = async (req: Request, res: Response) => {
   }
 
   try {
-    const taskId = uuidv4();
-    // Enqueue the transcription task
-    await transcriptionQueue.add(taskId, {
+    const taskName = uuidv4();
+    const job = await transcriptionQueue.add(taskName, {
       filePath: req.file.path,
-      taskId,
+      taskName: taskName,
+    }, {
+      attempts: 3,
+      backoff: 1000,
     });
     // return accepted with a status URL (api prefix kept)
-    return res.status(202).json({ taskId, statusUrl: `/api/tasks/${taskId}` });
+    return res.status(202).json({ taskId: job.id, statusUrl: `/api/tasks/${job.id}` });
   } catch (err: unknown) {
     // Log rich error info for debugging, but return a generic response to clients
     // if (axios.isAxiosError(err)) {

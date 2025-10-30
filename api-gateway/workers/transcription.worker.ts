@@ -10,13 +10,13 @@ const connection = new IORedis(redisUrl, { maxRetriesPerRequest: null });
 const QUEUE_NAME = 'transcriptions';
 
 const worker = new Worker(QUEUE_NAME, async job => {
-  const { filePath, taskId } = job.data;
-  if (!filePath || !taskId) {
+  const { filePath, taskName } = job.data;
+  if (!filePath || !taskName) {
     throw new Error('Invalid job data: missing filePath or taskId');
   }
 
   try {
-    console.log(`Processing transcription job ${taskId} for file ${filePath}`);
+    console.log(`Processing transcription job ${taskName} for file ${filePath}`);
     const response = await sendAudioFileToWhisper(filePath);
     // remove the file after processing
     fs.unlink(filePath, (err) => {
@@ -26,10 +26,10 @@ const worker = new Worker(QUEUE_NAME, async job => {
         console.log(`Successfully deleted file ${filePath}`);
       }
     });
-    console.log(`Transcription job ${taskId} completed.`);
+    console.log(`Transcription job ${taskName} completed.`);
     return response.data;
   } catch (error) {
-    console.error(`Error processing transcription job ${taskId}:`, error);
+    console.error(`Error processing transcription job ${taskName}:`, error);
     throw error;
   }
 }, { connection });
