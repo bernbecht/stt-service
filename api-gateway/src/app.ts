@@ -1,6 +1,7 @@
 import { createQueueDashExpressMiddleware } from "@queuedash/api";
 import cors from 'cors';
 import express from 'express';
+import './db/init';
 import './load-env';
 import sttRoutes from './routes/stt.routes';
 import { transcriptionQueue } from './services/queue';
