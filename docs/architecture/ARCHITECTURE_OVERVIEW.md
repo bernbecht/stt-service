@@ -24,6 +24,3 @@ This project is a microservice-based speech-to-text (STT) system with two main c
 
 ## Technologies
 - Node.js, TypeScript, Python, Docker Compose
-
----
-See also: `README.md`, `.github/copilot-instructions.md`.

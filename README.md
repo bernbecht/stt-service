@@ -49,29 +49,29 @@ See `docs/ARCHITECTURE.md`, `docs/DECISIONS.md`, and other docs in the `docs/` f
 
 ### Running the Services (Local Development)
 
-#### API Gateway
+- Start Whisper service (FastAPI):
 ```bash
-cd api-gateway
-npm install
-npm run dev
-```
-
-
-#### Transcription Worker (Required)
-In a separate terminal, start the worker to process queued transcription jobs (from the project root or api-gateway directory):
-```bash
-cd api-gateway
-npm install  # if not already done
-npx ts-node ../workers/transcription.worker.ts
-```
-
-#### Whisper Service
-```bash
+# from repo root
 cd whisper-service
 pip install -r requirements.txt
 python app/main.py
+# or: sh start.sh
 ```
 
----
+- Start API Gateway:
+```bash
+cd api-gateway
+npm install
+npm run dev         # local dev with ts-node-dev
+# or for mock whisper:
+npm run dev:mock-whisper
+```
 
-*Docker Compose integration is planned but not yet implemented. Instructions will be updated when available.*
+- Start worker (separate terminal; requires Redis running):
+```bash
+cd api-gateway
+# using package.json worker script or ts-node directly
+npm run worker
+# or
+npx ts-node ../workers/transcription.worker.ts
+```
