@@ -22,7 +22,7 @@ export const transcribeAudio = async (req: Request, res: Response) => {
       transcript_path: '',
       transcription_text: '',
       status: 'pending',
-      is_mock: process.env.USE_MOCK_WHISPER === 'true'
+      is_mock: Boolean(process.env.USE_MOCK_WHISPER)
     });
 
     // Phase 2: Enqueue job with database ID
