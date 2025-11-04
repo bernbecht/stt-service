@@ -1,6 +1,6 @@
 import { db } from '../db/index';
 
-export type TranscriptionStatus = 'queued' | 'processing' | 'done' | 'failed';
+export type TranscriptionStatus = 'queued' | 'processing' | 'done' | 'failed' | 'pending';
 
 export interface TranscriptionRecord {
   id: string;
