@@ -4,6 +4,7 @@ import os
 import tempfile
 from fastapi import UploadFile  # optional import for typing
 from pathlib import Path
+from typing import Union, Dict, Any
 
 _model = None
 
@@ -22,7 +23,7 @@ def transcribe_bytes(data: bytes, filename: str | None = None) -> str:
     with tempfile.NamedTemporaryFile(suffix=suffix, delete=True) as tmp:
         tmp.write(data)
         tmp.flush()
-        return transcribe_file(tmp.name)
+        return transcribe_file(tmp.name, return_metadata=False)
 
 async def transcribe_uploadfile(upload_file: UploadFile) -> str:
     """
@@ -31,7 +32,7 @@ async def transcribe_uploadfile(upload_file: UploadFile) -> str:
     content = await upload_file.read()
     return transcribe_bytes(content, filename=upload_file.filename)
 
-def transcribe_file(file_path: str) -> str:
+def transcribe_file(file_path: str, return_metadata: bool = True) -> Union[str, Dict[str, Any]]:
     if not os.path.isfile(file_path):
         raise FileNotFoundError(f"File not found: {file_path}")
     
@@ -49,9 +50,12 @@ def transcribe_file(file_path: str) -> str:
     end_time = time()
     print(f"Transcription completed in {end_time - start_time:.2f} seconds")
 
-    return {
-        "transcription": text,
-        "language": info.language,
-        "language_probability": info.language_probability,
-        "time_taken_seconds": end_time - start_time
-    }
+    if return_metadata:
+        return {
+            "transcription": text,
+            "language": info.language,
+            "language_probability": info.language_probability,
+            "transcription_duration_seconds": end_time - start_time
+        }
+    else:
+        return text

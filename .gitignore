@@ -17,3 +17,6 @@ venv/
 api-gateway/uploads/
 .env
 /shared/
+
+# database
+*.sqlite

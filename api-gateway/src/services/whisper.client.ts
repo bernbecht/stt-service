@@ -7,7 +7,8 @@ type WhisperResponse = {
   transcription: string;
   language?: string;
   language_confidence?: number;
-  time_taken_seconds?: number;
+  transcription_duration_seconds?: number;
+  transcript_path?: string;
   mock?: boolean;
 };
 
@@ -19,11 +20,12 @@ export const sendAudioFileToWhisper = async (filePath: string) => {
     console.log('[MOCK] Using mock Whisper service');
     // add latency to simulate real API call
     await new Promise((resolve) => setTimeout(resolve, 300));
-    return { data: { 
+    return { data: {
       transcription: 'This is a mock transcription.',
       language: 'pt-BR',
       language_confidence: 0.95,
-      time_taken_seconds: 1.23,
+      transcription_duration_seconds: 1.23,
+      transcript_path: '/mock/path/transcript.txt',
       mock: true,
      } as WhisperResponse };
   }

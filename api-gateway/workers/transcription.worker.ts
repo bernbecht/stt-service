@@ -3,11 +3,13 @@ import fs from 'fs';
 import IORedis from 'ioredis';
 import '../src/load-env';
 import { sendAudioFileToWhisper } from '../src/services/whisper.client';
+import { TranscriptionRepository } from '../src/repositories/transcriptions.repository';
 
 const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
 const connection = new IORedis(redisUrl, { maxRetriesPerRequest: null });
 
 const QUEUE_NAME = 'transcriptions';
+const transcriptionRepository = new TranscriptionRepository();
 
 const worker = new Worker(QUEUE_NAME, async job => {
   const { filePath, taskName } = job.data;
@@ -17,7 +19,22 @@ const worker = new Worker(QUEUE_NAME, async job => {
 
   try {
     console.log(`Processing transcription job ${taskName} for file ${filePath}`);
+
+    // Update status to 'processing'
+    transcriptionRepository.updateStatus(taskName, 'processing');
+
     const response = await sendAudioFileToWhisper(filePath);
+
+    // Save transcription results to database
+    transcriptionRepository.update(taskName, {
+      transcription_text: response.data.transcription,
+      language: response.data.language,
+      language_confidence: response.data.language_confidence,
+      transcription_duration_seconds: response.data.transcription_duration_seconds,
+      transcript_path: response.data.transcript_path,
+      status: 'done'
+    });
+
     // remove the file after processing
     fs.unlink(filePath, (err) => {
       if (err) {
@@ -26,10 +43,19 @@ const worker = new Worker(QUEUE_NAME, async job => {
         console.log(`Successfully deleted file ${filePath}`);
       }
     });
+
     console.log(`Transcription job ${taskName} completed.`);
     return response.data;
   } catch (error) {
     console.error(`Error processing transcription job ${taskName}:`, error);
+
+    // Update status to 'failed' on error
+    try {
+      transcriptionRepository.updateStatus(taskName, 'failed');
+    } catch (dbError) {
+      console.error(`Failed to update job status to failed:`, dbError);
+    }
+
     throw error;
   }
 }, { connection });

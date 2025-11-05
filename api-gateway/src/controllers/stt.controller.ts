@@ -54,3 +54,35 @@ export const transcribeAudio = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+// Controller to get transcription status and results
+export const getTranscriptionStatus = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const transcription = transcriptionRepository.findById(id);
+
+    if (!transcription) {
+      return res.status(404).json({ message: 'Transcription not found' });
+    }
+
+    // Return the full transcription record
+    return res.json({
+      id: transcription.id,
+      status: transcription.status,
+      file_path: transcription.file_path,
+      transcript_path: transcription.transcript_path,
+      transcription_text: transcription.transcription_text,
+      language: transcription.language,
+      language_confidence: transcription.language_confidence,
+      transcription_duration_seconds: transcription.transcription_duration_seconds,
+      created_at: transcription.created_at,
+      updated_at: transcription.updated_at,
+      is_mock: transcription.is_mock
+    });
+  } catch (err: unknown) {
+    console.error('Error fetching transcription status:', err);
+    // Always return a generic error to the client
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     file_path = sys.argv[1]
     try:
-        text = transcribe_file(file_path)
+        text = transcribe_file(file_path, return_metadata=False)
         print(text)
     except Exception as e:
         print(f"Error: {e}")

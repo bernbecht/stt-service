@@ -9,7 +9,7 @@ export interface TranscriptionRecord {
   transcription_text: string;
   language?: string;
   language_confidence?: number;
-  duration_seconds?: number;
+  transcription_duration_seconds?: number;
   status: TranscriptionStatus;
   created_at: Date;
   updated_at: Date;
@@ -28,7 +28,7 @@ interface DatabaseRow {
   transcription_text: string;
   language: string | null;
   language_confidence: number | null;
-  duration_seconds: number | null;
+  transcription_duration_seconds: number | null;
   status: string;
   created_at: string;
   updated_at: string;
@@ -44,7 +44,7 @@ export class TranscriptionRepository {
       transcription_text: row.transcription_text,
       language: row.language ?? undefined,
       language_confidence: row.language_confidence ?? undefined,
-      duration_seconds: row.duration_seconds ?? undefined,
+      transcription_duration_seconds: row.transcription_duration_seconds ?? undefined,
       status: row.status as TranscriptionStatus,
       created_at: new Date(row.created_at),
       updated_at: new Date(row.updated_at),
@@ -59,7 +59,7 @@ export class TranscriptionRepository {
       const stmt = db.prepare(`
         INSERT INTO transcriptions (
           id, file_path, transcript_path, transcription_text,
-          language, language_confidence, duration_seconds, status,
+          language, language_confidence, transcription_duration_seconds, status,
           created_at, updated_at, is_mock
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
@@ -71,7 +71,7 @@ export class TranscriptionRepository {
         data.transcription_text,
         data.language ?? null,
         data.language_confidence ?? null,
-        data.duration_seconds ?? null,
+        data.transcription_duration_seconds ?? null,
         data.status,
         now,
         now,

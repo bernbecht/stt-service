@@ -1,5 +1,5 @@
 // src/db/init.ts
-import { db } from './index.js';
+import { db } from './index';
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS transcriptions (
@@ -9,7 +9,7 @@ db.exec(`
     transcription_text TEXT,
     language TEXT,
     language_confidence REAL,
-    duration_seconds REAL,
+     transcription_duration_seconds REAL,
     status TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,

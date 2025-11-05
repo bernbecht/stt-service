@@ -28,7 +28,8 @@ async def transcribe(payload: PathPayload):
     # run the blocking work in a thread so the event loop isn't blocked
     result = await asyncio.to_thread(transcribe_file, file_path)
     # save the transcription to a file
-    save_transcription(result["transcription"], file_path)
+    transcript_path = save_transcription(result["transcription"], file_path)
+    result["transcript_path"] = transcript_path
     return result
 
 
