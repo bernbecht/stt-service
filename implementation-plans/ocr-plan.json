@@ -1,0 +1,66 @@
+{
+  "project": "Document OCR Worker MVP",
+  "description": "Add document text extraction using Qwen or similar model as a new worker integrated into the existing worker system under the API gateway.",
+  "milestones": [
+    {
+      "id": 1,
+      "title": "Create Document Worker Skeleton",
+      "tasks": [
+        "Create `document.worker.ts` in `/workers/` or `/api-gateway/workers/` following the pattern of `transcript.worker.ts`.",
+        "Register the worker in the gateway’s worker queue system (e.g., BullMQ or Redis setup).",
+        "Add a log message to confirm worker startup."
+      ],
+      "dependencies": []
+    },
+    {
+      "id": 2,
+      "title": "Implement File Input Handling",
+      "tasks": [
+        "Accept a file path or buffer from job data.",
+        "Ensure MIME type and file size validation.",
+        "Add file upload mock (local storage or temp path)."
+      ],
+      "dependencies": [1]
+    },
+    {
+      "id": 3,
+      "title": "Integrate Qwen OCR Model",
+      "tasks": [
+        "Add model inference call (local or API) to extract text from the document.",
+        "Handle supported types: PDF and image (PNG, JPG).",
+        "Return structured text output (e.g., JSON with `pages` and `content`)."
+      ],
+      "dependencies": [2]
+    },
+    {
+      "id": 4,
+      "title": "Store Extracted Text",
+      "tasks": [
+        "Save OCR result into a database or storage bucket.",
+        "Link extracted text with document metadata (file id, name, etc.).",
+        "Add error handling and retry logic."
+      ],
+      "dependencies": [3]
+    },
+    {
+      "id": 5,
+      "title": "Expose API Endpoint",
+      "tasks": [
+        "Add route to enqueue document OCR job (`POST /documents/ocr`).",
+        "Return job ID for status tracking.",
+        "Implement job status endpoint (`GET /documents/ocr/:jobId`)."
+      ],
+      "dependencies": [4]
+    },
+    {
+      "id": 6,
+      "title": "Testing and Observability",
+      "tasks": [
+        "Add unit tests for worker behavior and model integration.",
+        "Add structured logging (job start, success, error).",
+        "Add minimal metrics (time per document, failure rate)."
+      ],
+      "dependencies": [5]
+    }
+  ]
+}
