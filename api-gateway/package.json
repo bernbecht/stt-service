@@ -10,7 +10,8 @@
     "dev:mock-whisper": "USE_MOCK_WHISPER=true ts-node-dev --respawn --transpile-only src/app.ts",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write '**/*.ts'",
-    "worker": "ts-node workers/transcription.worker.ts"
+    "worker": "ts-node workers/transcription.worker.ts",
+    "worker:document": "ts-node workers/document.worker.ts"
   },
   "dependencies": {
     "@queuedash/api": "^3.8.0",

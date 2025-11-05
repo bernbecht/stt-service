@@ -1,9 +1,13 @@
-import { Queue } from "bullmq";
-import IORedis from "ioredis";
+import { Queue } from 'bullmq';
+import IORedis from 'ioredis';
 
-const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
+const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
 const connection = new IORedis(redisUrl, { maxRetriesPerRequest: null });
 
-export const transcriptionQueue = new Queue("transcriptions", {
+export const transcriptionQueue = new Queue('transcriptions', {
+  connection,
+});
+
+export const documentQueue = new Queue('documents', {
   connection,
 });
