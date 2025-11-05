@@ -1,4 +1,4 @@
-## Plan for ADR: Two-Phase Job Enqueue with Database Persistence
+# ADR 0004 — Two-Phase Job Enqueue with Database Persistence
 
 ### ADR Details
 
