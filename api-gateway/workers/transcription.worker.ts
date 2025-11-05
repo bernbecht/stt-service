@@ -1,9 +1,8 @@
 import { Worker } from 'bullmq';
-import fs from 'fs';
 import IORedis from 'ioredis';
 import '../src/load-env';
-import { sendAudioFileToWhisper } from '../src/services/whisper.client';
 import { TranscriptionRepository } from '../src/repositories/transcriptions.repository';
+import { sendAudioFileToWhisper } from '../src/services/whisper.client';
 
 const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
 const connection = new IORedis(redisUrl, { maxRetriesPerRequest: null });
@@ -33,15 +32,6 @@ const worker = new Worker(QUEUE_NAME, async job => {
       transcription_duration_seconds: response.data.transcription_duration_seconds,
       transcript_path: response.data.transcript_path,
       status: 'done'
-    });
-
-    // remove the file after processing
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        console.error(`Error deleting file ${filePath}:`, err);
-      } else {
-        console.log(`Successfully deleted file ${filePath}`);
-      }
     });
 
     console.log(`Transcription job ${taskName} completed.`);
