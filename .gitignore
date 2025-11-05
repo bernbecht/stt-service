@@ -1,22 +1,124 @@
-node_modules
-dist
-.env
+# =============================================================================
+# DEPENDENCIES & PACKAGE MANAGERS
+# =============================================================================
 
-# python
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
 venv/
-.venv
-./whisper-service/results
+.venv/
+env/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
 
-# general
-.DS_Store
-.idea/
+# =============================================================================
+# BUILD OUTPUTS & COMPILED FILES
+# =============================================================================
 
-# api-gateway
-api-gateway/uploads/
+# TypeScript/JavaScript
+dist/
+build/
+*.tsbuildinfo
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# =============================================================================
+# ENVIRONMENT & CONFIGURATION
+# =============================================================================
+
+# Environment variables
 .env
-/shared/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# database
-/api-gateway/data
+# =============================================================================
+# RUNTIME DATA & TEMPORARY FILES
+# =============================================================================
+
+# Application data
+uploads/
+shared/
+data/
+results/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+dump.rdb
+
+# Logs
+logs/
+*.log
+
+# =============================================================================
+# IDE & EDITOR FILES
+# =============================================================================
+
+# General
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# =============================================================================
+# OPERATING SYSTEM FILES
+# =============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# =============================================================================
+# PROJECT-SPECIFIC
+# =============================================================================
+
+# Whisper service results
+whisper-service/results/
+
+# Audio files (development samples)
+audios/*.m4a
+audios/*.mp3
+audios/*.wav
+audios/*.flac
+
+# Temporary transcription files
+tmp/
+temp/
