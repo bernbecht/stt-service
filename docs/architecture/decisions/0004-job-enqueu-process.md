@@ -118,6 +118,8 @@ Triggers for Re-evaluation:
 decision
 • ADR 0002 /0002%E2%80%91decoupling%E2%80%91database%E2%80%91access.md -
 Repository pattern implementation
+• ADR 0005 /0005-service-failure-recovery.md - Service failure recovery and data consistency
+• ADR 0006 /0006-audio-file-retention-strategy.md - Configurable audio file retention strategy
 
 This ADR documents the critical architectural decision that ensures reliable
 job processing and data persistence while maintaining system consistency and
