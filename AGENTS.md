@@ -29,19 +29,15 @@ Follow patterns in `.github/copilot-instructions.md`: queue-based processing, fi
 
 ## Documentation Index
 
+Documentation lives in ./docs
+
 ### Core Documentation
 
 • DECISIONS.md - Records major architectural decisions (microservice split, transcription
 engine, queue pattern, file-based handoff, Docker Compose)
 • DEVELOPMENT.md - Developer setup guide with prerequisites, installation instructions for
 both services, testing approach
-• EXAMPLES.md - Reference examples including HTTP requests, transcript filename patterns,
-directory structure
-• INTEGRATION.md - Integration guide covering gateway ↔ whisper service communication, file
-conventions, expected formats, error handling
-• ROADMAP.md - Project roadmap showing completed features (queue + shared folder, job status
-tracking), current work (persist transcripts), and future plans (S3/MinIO, Docker deployment,
-WebSocket updates)
+• ROADMAP.md - Project roadmap showing completed features 
 
 ### Architecture Documentation
 
