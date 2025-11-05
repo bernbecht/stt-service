@@ -19,4 +19,4 @@ api-gateway/uploads/
 /shared/
 
 # database
-*.sqlite
+/api-gateway/data
