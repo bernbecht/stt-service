@@ -16,10 +16,7 @@ export interface TranscriptionRecord {
   is_mock?: boolean;
 }
 
-export type CreateTranscriptionData = Omit<
-  TranscriptionRecord,
-  'created_at' | 'updated_at'
->;
+export type CreateTranscriptionData = Omit<TranscriptionRecord, 'created_at' | 'updated_at'>;
 
 interface DatabaseRow {
   id: string;
@@ -48,7 +45,7 @@ export class TranscriptionRepository {
       status: row.status as TranscriptionStatus,
       created_at: new Date(row.created_at),
       updated_at: new Date(row.updated_at),
-      is_mock: Boolean(row.is_mock)
+      is_mock: Boolean(row.is_mock),
     };
   }
 
@@ -75,7 +72,7 @@ export class TranscriptionRepository {
         data.status,
         now,
         now,
-        data.is_mock ? 1 : 0
+        data.is_mock ? 1 : 0,
       );
 
       return this.findById(data.id)!;
@@ -87,16 +84,12 @@ export class TranscriptionRepository {
 
   update(id: string, data: Partial<TranscriptionRecord>): TranscriptionRecord {
     try {
-      const mutableFields = Object.entries(data).filter(
-        ([key]) => !['id', 'created_at', 'updated_at'].includes(key)
-      );
+      const mutableFields = Object.entries(data).filter(([key]) => !['id', 'created_at', 'updated_at'].includes(key));
 
       if (mutableFields.length === 0) return this.findById(id)!;
 
       const setClause = mutableFields.map(([key]) => `${key} = ?`).join(', ');
-      const values = mutableFields.map(([key, value]) =>
-        key === 'is_mock' ? (value ? 1 : 0) : value
-      );
+      const values = mutableFields.map(([key, value]) => (key === 'is_mock' ? (value ? 1 : 0) : value));
 
       const stmt = db.prepare(`
         UPDATE transcriptions
@@ -143,7 +136,7 @@ export class TranscriptionRepository {
       const stmt = db.prepare('SELECT * FROM transcriptions WHERE status = ? ORDER BY created_at DESC');
       const rows = stmt.all(status) as DatabaseRow[];
 
-      return rows.map(row => this.mapRow(row));
+      return rows.map((row) => this.mapRow(row));
     } catch (error) {
       console.error('Repository error in findByStatus:', error);
       throw new Error(`Failed to find transcriptions by status: ${(error as Error).message}`);

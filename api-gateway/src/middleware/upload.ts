@@ -18,9 +18,8 @@ const storage = multer.diskStorage({
     // TODO: add even safer filename handling
     const safeName = file.originalname.replace(/\s+/g, '_');
     cb(null, `${timestamp}-${safeName}`);
-  }
+  },
 });
-
 
 // Create the multer instance that will handle a single file upload with the field name 'audio'
 const upload = multer({ storage });

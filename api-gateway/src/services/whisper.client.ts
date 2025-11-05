@@ -20,19 +20,25 @@ export const sendAudioFileToWhisper = async (filePath: string) => {
     console.log('[MOCK] Using mock Whisper service');
     // add latency to simulate real API call
     await new Promise((resolve) => setTimeout(resolve, 300));
-    return { data: {
-      transcription: 'This is a mock transcription.',
-      language: 'pt-BR',
-      language_confidence: 0.95,
-      transcription_duration_seconds: 1.23,
-      transcript_path: '/mock/path/transcript.txt',
-      mock: true,
-     } as WhisperResponse };
+    return {
+      data: {
+        transcription: 'This is a mock transcription.',
+        language: 'pt-BR',
+        language_confidence: 0.95,
+        transcription_duration_seconds: 1.23,
+        transcript_path: '/mock/path/transcript.txt',
+        mock: true,
+      } as WhisperResponse,
+    };
   }
 
-  const response = await axios.post(WHISPER_API_URL, { path: filePath }, {
-    headers: { 'Content-Type': 'application/json' },
-  });
+  const response = await axios.post(
+    WHISPER_API_URL,
+    { path: filePath },
+    {
+      headers: { 'Content-Type': 'application/json' },
+    },
+  );
 
   const responseData: WhisperResponse = response.data as WhisperResponse;
   return { data: responseData };

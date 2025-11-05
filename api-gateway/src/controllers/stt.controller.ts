@@ -22,17 +22,21 @@ export const transcribeAudio = async (req: Request, res: Response) => {
       transcript_path: '',
       transcription_text: '',
       status: 'pending',
-      is_mock: Boolean(process.env.USE_MOCK_WHISPER)
+      is_mock: Boolean(process.env.USE_MOCK_WHISPER),
     });
 
     // Phase 2: Enqueue job with database ID
-    const job = await transcriptionQueue.add(taskName, {
-      filePath: req.file.path,
-      taskName: taskName,
-    }, {
-      attempts: 3,
-      backoff: 1000,
-    });
+    const job = await transcriptionQueue.add(
+      taskName,
+      {
+        filePath: req.file.path,
+        taskName: taskName,
+      },
+      {
+        attempts: 3,
+        backoff: 1000,
+      },
+    );
 
     // Phase 3: Update status to 'queued' only after successful enqueue
     transcriptionRepository.updateStatus(taskName, 'queued');
@@ -78,7 +82,7 @@ export const getTranscriptionStatus = async (req: Request, res: Response) => {
       transcription_duration_seconds: transcription.transcription_duration_seconds,
       created_at: transcription.created_at,
       updated_at: transcription.updated_at,
-      is_mock: transcription.is_mock
+      is_mock: transcription.is_mock,
     });
   } catch (err: unknown) {
     console.error('Error fetching transcription status:', err);
