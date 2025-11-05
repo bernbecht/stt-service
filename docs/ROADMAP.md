@@ -2,7 +2,7 @@
 | --------- | ------------------------- | -------------------------- |
 | ✅ Done | Queue + Shared Folder     | Core functionality working |
 | ✅ Done   | Job status tracking       | Visibility & retries       |
-| 🟡 Current   | Persist transcripts       | Durability, metadata       |
+| ✅ Done   | Persist transcripts       | Durability, metadata       |
 | 🟠 Later  | S3 / MinIO                | Real-world file handling   |
 | 🟠 Later  | Logs & error handling     | Debuggability              |
 | 🔵 Future | Dockerize + deploy        | Reproducible & portable    |
